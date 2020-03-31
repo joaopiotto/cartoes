@@ -60,12 +60,13 @@ public class UsuarioController {
 
 		} catch (ConsistenciaException e) {
 
+			log.info("Controller: Inconsistência de dados: {}", e.getMessage());
 			response.adicionarErro(e.getMensagem());
 			return ResponseEntity.badRequest().body(response);
 
 		} catch (Exception e) {
 
-			log.info("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
+			log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
 			response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
 			return ResponseEntity.status(500).body(response);
 
@@ -111,12 +112,13 @@ public class UsuarioController {
 
 		} catch (ConsistenciaException e) {
 
+			log.info("Controller: Inconsistência de dados: {}", e.getMessage());
 			response.adicionarErro(e.getMensagem());
 			return ResponseEntity.badRequest().body(response);
 
 		} catch (Exception e) {
 
-			log.info("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
+			log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
 			response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
 			return ResponseEntity.status(500).body(response);
 
@@ -161,12 +163,13 @@ public class UsuarioController {
 
 		} catch (ConsistenciaException e) {
 
+			log.info("Controller: Inconsistência de dados: {}", e.getMessage());
 			response.adicionarErro(e.getMensagem());
 			return ResponseEntity.badRequest().body(response);
 
 		} catch (Exception e) {
 
-			log.info("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
+			log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
 			response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
 			return ResponseEntity.status(500).body(response);
 

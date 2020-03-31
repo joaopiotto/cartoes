@@ -44,9 +44,9 @@ public class CartaoController {
 	 * @return Lista de cartões que o cliente possui
 	 */
 	@GetMapping(value = "/cliente/{clienteId}")
-	public ResponseEntity<Response<List<Cartao>>> buscarPorClienteId(@PathVariable("clienteId") int clienteId) {
+	public ResponseEntity<Response<List<CartaoDto>>> buscarPorClienteId(@PathVariable("clienteId") int clienteId) {
 
-		Response<List<Cartao>> response = new Response<List<Cartao>>();
+		Response<List<CartaoDto>> response = new Response<List<CartaoDto>>();
 
 		try {
 
@@ -54,18 +54,19 @@ public class CartaoController {
 
 			Optional<List<Cartao>> listaCartoes = cartaoService.buscarPorClienteId(clienteId);
 
-			response.setDados(listaCartoes.get());
+			response.setDados(ConversaoUtils.ConverterLista(listaCartoes.get()));
 
 			return ResponseEntity.ok(response);
 
 		} catch (ConsistenciaException e) {
 
+			log.info("Controller: Inconsistência de dados: {}", e.getMessage());
 			response.adicionarErro(e.getMensagem());
 			return ResponseEntity.badRequest().body(response);
 
 		} catch (Exception e) {
 
-			log.info("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
+			log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
 			response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
 			return ResponseEntity.status(500).body(response);
 
@@ -80,9 +81,9 @@ public class CartaoController {
 	 * @return Dados do cartao persistido
 	 */
 	@PostMapping
-	public ResponseEntity<Response<Cartao>> salvar(@Valid @RequestBody CartaoDto cartaoDto, BindingResult result) {
+	public ResponseEntity<Response<CartaoDto>> salvar(@Valid @RequestBody CartaoDto cartaoDto, BindingResult result) {
 
-		Response<Cartao> response = new Response<Cartao>();
+		Response<CartaoDto> response = new Response<CartaoDto>();
 
 		try {
 
@@ -99,18 +100,20 @@ public class CartaoController {
 
 			}
 		
-			response.setDados(this.cartaoService.salvar(ConversaoUtils.Converter(cartaoDto)));
+			Cartao cartao = this.cartaoService.salvar(ConversaoUtils.Converter(cartaoDto));
+			response.setDados(ConversaoUtils.Converter(cartao));
 
 			return ResponseEntity.ok(response);
 
 		} catch (ConsistenciaException e) {
 
+			log.info("Controller: Inconsistência de dados: {}", e.getMessage());
 			response.adicionarErro(e.getMensagem());
 			return ResponseEntity.badRequest().body(response);
 
 		} catch (Exception e) {
 
-			log.info("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
+			log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
 			response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
 			return ResponseEntity.status(500).body(response);
 
@@ -141,12 +144,13 @@ public class CartaoController {
 
 		} catch (ConsistenciaException e) {
 
+			log.info("Controller: Inconsistência de dados: {}", e.getMessage());
 			response.adicionarErro(e.getMensagem());
 			return ResponseEntity.badRequest().body(response);
 
 		} catch (Exception e) {
 
-			log.info("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
+			log.error("Controller: Ocorreu um erro na aplicação: {}", e.getMessage());
 			response.adicionarErro("Ocorreu um erro na aplicação: {}", e.getMessage());
 			return ResponseEntity.status(500).body(response);
 
