@@ -41,9 +41,9 @@ public class ClienteController {
 	 * @return Dados do cliente 
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Response<Cliente>> buscarPorId(@PathVariable("id") int id) {
+	public ResponseEntity<Response<ClienteDto>> buscarPorId(@PathVariable("id") int id) {
 
-		Response<Cliente> response = new Response<Cliente>();
+		Response<ClienteDto> response = new Response<ClienteDto>();
 
 		try {
 
@@ -51,7 +51,7 @@ public class ClienteController {
 			
 			Optional<Cliente> cliente = clienteService.buscarPorId(id);
 
-			response.setDados(cliente.get());
+			response.setDados(ConversaoUtils.Converter(cliente.get()));
 
 			return ResponseEntity.ok(response);
 
@@ -78,9 +78,9 @@ public class ClienteController {
 	 * @return Dados do cliente
 	 */
 	@GetMapping(value = "/cpf/{cpf}")
-	public ResponseEntity<Response<Cliente>> buscarPorCpf(@PathVariable("cpf") String cpf) {
+	public ResponseEntity<Response<ClienteDto>> buscarPorCpf(@PathVariable("cpf") String cpf) {
 
-		Response<Cliente> response = new Response<Cliente>();
+		Response<ClienteDto> response = new Response<ClienteDto>();
 
 		try {
 
@@ -88,7 +88,7 @@ public class ClienteController {
 
 			Optional<Cliente> cliente = clienteService.buscarPorCpf(cpf);
 
-			response.setDados(cliente.get());
+			response.setDados(ConversaoUtils.Converter(cliente.get()));
 
 			return ResponseEntity.ok(response);
 
@@ -115,9 +115,9 @@ public class ClienteController {
 	 * @return Dados do cliente persistido
 	 */
 	@PostMapping
-	public ResponseEntity<Response<Cliente>> salvar(@Valid @RequestBody ClienteDto clienteDto, BindingResult result) {
+	public ResponseEntity<Response<ClienteDto>> salvar(@Valid @RequestBody ClienteDto clienteDto, BindingResult result) {
 
-		Response<Cliente> response = new Response<Cliente>();
+		Response<ClienteDto> response = new Response<ClienteDto>();
 
 		try {
 
@@ -134,7 +134,8 @@ public class ClienteController {
 
 			}
 
-			response.setDados(this.clienteService.salvar(ConversaoUtils.Converter(clienteDto)));
+			Cliente cliente = this.clienteService.salvar(ConversaoUtils.Converter(clienteDto));
+			response.setDados(ConversaoUtils.Converter(cliente));
 
 			return ResponseEntity.ok(response);
 
