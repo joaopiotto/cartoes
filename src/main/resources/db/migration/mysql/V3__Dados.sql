@@ -1,6 +1,9 @@
 insert into `usuario` values 
 (default, 'Usuario 01', '14848682002', '$2a$10$FHayM6spzm5LGUa//VKYKe9iWLPlSnYpdwGEkvHMlCEZUIsr4EEIG', true);
 
+insert into `usuario` values 
+(default, 'Usuario 02', '27546823099', '$2a$10$FHayM6spzm5LGUa//VKYKe9iWLPlSnYpdwGEkvHMlCEZUIsr4EEIG', true);
+
 insert into `regra` values (default, 'ROLE_ADM_USUARIO', 'Permite acesso aos serviços de usuário', true);
 insert into `regra` values (default, 'ROLE_EXCLUSAO', 'Permite exclusão de cartões', true);
 

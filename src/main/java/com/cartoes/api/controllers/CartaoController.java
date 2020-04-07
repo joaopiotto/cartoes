@@ -127,7 +127,7 @@ public class CartaoController {
 	 * @return Sucesso/erro
 	 */
 	@DeleteMapping(value = "excluir/{id}")
-	@PreAuthorize("hasAnyRole('EXCLUSAO_CARTAO')")
+	@PreAuthorize("hasAnyRole('EXCLUSAO')")
 	public ResponseEntity<Response<String>> excluirPorId(@PathVariable("id") int id){
 		
 		Response<String> response = new Response<String>();
