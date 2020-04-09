@@ -26,9 +26,9 @@ public class ClienteRepositoryTest {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
-	Cliente clienteTeste;
+	private Cliente clienteTeste;
 	
-	private ClienteRepositoryTest() throws ParseException {
+	private void CriarClienteTestes() throws ParseException {
 		
 		clienteTeste = new Cliente();
 		
@@ -41,6 +41,7 @@ public class ClienteRepositoryTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		CriarClienteTestes();
 		clienteRepository.save(clienteTeste);
 	}
 	
