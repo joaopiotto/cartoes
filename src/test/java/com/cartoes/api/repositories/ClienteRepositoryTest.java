@@ -1,13 +1,14 @@
 package com.cartoes.api.repositories;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,17 +42,21 @@ public class ClienteRepositoryTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		
 		CriarClienteTestes();
 		clienteRepository.save(clienteTeste);
+		
 	}
 	
 	@After
 	public void tearDown() throws Exception {
+		
 		clienteRepository.deleteAll();
+		
 	}
 	
 	@Test
-	public void testFindById() {
+	public void testFindById() {	
 		
 		Cliente cliente = clienteRepository.findById(clienteTeste.getId()).get();
 		assertEquals(cliente.getId(), clienteTeste.getId());
@@ -74,14 +79,13 @@ public class ClienteRepositoryTest {
 				clienteTeste.getDataAtualizacao());
 		
 		if (lstCliente.size() != 1) {
-			Assert.fail();
+			fail();
 		}
 		
 		Cliente cliente = lstCliente.get(0);
 		
-		Assert.assertTrue(
-				cliente.getUf().equals(clienteTeste.getUf()) &&
-				cliente.getDataAtualizacao().equals(cliente.getDataAtualizacao()));
+		assertTrue(cliente.getUf().equals(clienteTeste.getUf())
+				&& cliente.getDataAtualizacao().equals(cliente.getDataAtualizacao()));
 				
 	}
 
