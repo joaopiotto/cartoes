@@ -2,7 +2,6 @@ package com.cartoes.api.services;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Optional;
 
@@ -60,7 +59,7 @@ public class ClienteServiceTest {
 		BDDMockito.given(clienteRepository.findByCpf(Mockito.anyString()))
 			.willReturn(new Cliente());
 		
-		Optional<Cliente> resultado = clienteService.buscarPorCpf("12312312312");
+		Optional<Cliente> resultado = clienteService.buscarPorCpf("99930632077");
 		
 		assertTrue(resultado.isPresent());
 		
@@ -72,7 +71,7 @@ public class ClienteServiceTest {
 		BDDMockito.given(clienteRepository.findByCpf(Mockito.anyString()))
 		.willReturn(null);
 		
-		clienteService.buscarPorCpf("12312312312");
+		clienteService.buscarPorCpf("99930632077");
 		
 	}
 	
@@ -88,32 +87,26 @@ public class ClienteServiceTest {
 		
 	}
 	
-	@Test
-	public void testSalvarIdNaoEncontrado() {	
+	@Test(expected = ConsistenciaException.class)
+	public void testSalvarIdNaoEncontrado() throws ConsistenciaException {	
 		
 		BDDMockito.given(clienteRepository.findById(Mockito.anyInt()))
 		.willReturn(Optional.empty());
 		
 		Cliente c = new Cliente();
-		c.setId(1);
+		c.setId(1); // Informar id para satisfazer a candição de busca
 		
-		try {
-			clienteService.salvar(c);
-			fail(); // Se não voltar exception, é pq o teste falhou
-		} catch (ConsistenciaException e) { }
+		clienteService.salvar(c);
 
 	}
 	
-	@Test
-	public void testSalvarCpfDuplicado() {	
+	@Test(expected = ConsistenciaException.class)
+	public void testSalvarCpfDuplicado() throws ConsistenciaException {	
 		
 		BDDMockito.given(clienteRepository.save(Mockito.any(Cliente.class)))
 		.willThrow(new DataIntegrityViolationException(""));
 		
-		try {
-			clienteService.salvar(new Cliente());
-			fail(); // Se não voltar exception, é pq o teste falhou
-		} catch (Exception e) { }
+		clienteService.salvar(new Cliente());
 
 	}
 	

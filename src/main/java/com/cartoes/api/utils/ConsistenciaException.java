@@ -15,7 +15,10 @@ public class ConsistenciaException extends Exception {
 		this.mensagem = format;
 		
 		for (Object object : args) {
-			mensagem = mensagem.replaceFirst("\\{\\}", object.toString());
+			
+			if (object != null)
+				mensagem = mensagem.replaceFirst("\\{\\}", object.toString());
+			
 		}
 		
 	}
