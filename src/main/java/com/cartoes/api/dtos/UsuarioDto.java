@@ -17,8 +17,6 @@ public class UsuarioDto {
 	private String nome;
 	
 	@NotEmpty(message = "CPF não pode ser vazio.")
-	@Length(min = 11, max = 11,
-	message = "CPF deve conter 11 caracteres.")
 	@CPF( message = "CPF inválido.")
 	private String cpf;
 	

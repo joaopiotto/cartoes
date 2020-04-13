@@ -7,24 +7,27 @@ import org.hibernate.validator.constraints.br.CPF;
 
 public class JwtAuthenticationDto {
 
+	@NotEmpty(message = "CPF não pode ser vazio.")
+	@CPF( message = "CPF inválido.")
 	private String cpf;
+	
+	@NotEmpty(message = "Senha não pode ser vazia.")
+	@Length(min = 8, max = 25,
+	message = "Senha atual deve conter entre 8 e 25 caracteres.")
 	private String senha;
 	
-	@NotEmpty(message = "CPF não pode ser vazio.")
-	@Length(min = 11, max = 11,
-	message = "CPF deve conter 11 caracteres.")
-	@CPF( message = "CPF inválido.")
 	public String getCpf() {
 		return cpf;
 	}
+	
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
-	@NotEmpty(message = "Senha não pode ser vazia.")
 	public String getSenha() {
 		return senha;
 	}
+	
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
