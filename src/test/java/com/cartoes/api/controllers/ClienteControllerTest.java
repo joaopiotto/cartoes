@@ -162,7 +162,7 @@ public class ClienteControllerTest {
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.erros").value("Teste inconsistência."));
+			.andExpect(jsonPath("$.erros").value("XXXXXXXXXXXX"));
 
 	}
 	
