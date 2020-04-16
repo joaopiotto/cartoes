@@ -74,15 +74,15 @@ public class ClienteControllerTest {
 
 	@Test
 	@WithMockUser
-	public void testBuscarPorIdNaoEncontrado() throws Exception {
+	public void testBuscarPorIdInconsistencia() throws Exception {
 
 		BDDMockito.given(clienteService.buscarPorId((Mockito.anyInt())))
-			.willThrow(new ConsistenciaException("Nenhum cliente com id: 1 foi encontrado"));
+			.willThrow(new ConsistenciaException("Teste inconsistência"));
 
 		mvc.perform(MockMvcRequestBuilders.get("/api/cliente/1")
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.erros").value("Nenhum cliente com id: 1 foi encontrado"));
+			.andExpect(jsonPath("$.erros").value("Teste inconsistência"));
 
 	}
 	
@@ -108,15 +108,15 @@ public class ClienteControllerTest {
 
 	@Test
 	@WithMockUser
-	public void testBuscarPorCpfNaoEncontrado() throws Exception {
+	public void testBuscarPorCpfInconsistencia() throws Exception {
 
 		BDDMockito.given(clienteService.buscarPorCpf(Mockito.anyString()))
-			.willThrow(new ConsistenciaException("Nenhum cliente com id: 1 foi encontrado"));
+			.willThrow(new ConsistenciaException("Teste inconsistência"));
 
 		mvc.perform(MockMvcRequestBuilders.get("/api/cliente/cpf/05887098082")
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.erros").value("Nenhum cliente com id: 1 foi encontrado"));
+			.andExpect(jsonPath("$.erros").value("Teste inconsistência"));
 
 	}
 
@@ -136,12 +136,12 @@ public class ClienteControllerTest {
 			.content(json)
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.dados.id").value(objEntrada.getId()))
-		.andExpect(jsonPath("$.dados.nome").value(objEntrada.getNome()))
-		.andExpect(jsonPath("$.dados.cpf").value(objEntrada.getCpf()))
-		.andExpect(jsonPath("$.dados.uf").value(objEntrada.getUf()))
-		.andExpect(jsonPath("$.erros").isEmpty());
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.dados.id").value(objEntrada.getId()))
+			.andExpect(jsonPath("$.dados.nome").value(objEntrada.getNome()))
+			.andExpect(jsonPath("$.dados.cpf").value(objEntrada.getCpf()))
+			.andExpect(jsonPath("$.dados.uf").value(objEntrada.getUf()))
+			.andExpect(jsonPath("$.erros").isEmpty());
 
 	}
 	
@@ -155,14 +155,14 @@ public class ClienteControllerTest {
 		String json = new ObjectMapper().writeValueAsString(objEntrada);
 		
 		BDDMockito.given(clienteService.salvar(Mockito.any(Cliente.class)))
-			.willThrow(new ConsistenciaException("O cpf: {} já está cadastrado para outro cliente", cliente.getCpf()));
+			.willThrow(new ConsistenciaException("Teste inconsistência."));
 		
 		mvc.perform(MockMvcRequestBuilders.post("/api/cliente")
 			.content(json)
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isBadRequest())
-		.andExpect(jsonPath("$.erros").value("O cpf: " + cliente.getCpf() + " já está cadastrado para outro cliente"));
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.erros").value("Teste inconsistência."));
 
 	}
 	
